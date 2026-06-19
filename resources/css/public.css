@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+| Public-site stylesheet (Blade + Tailwind + Alpine).
+| Kept separate from resources/css/app.css (the Vue/Inertia admin bundle) so
+| public pages never ship the admin/Vue CSS — smaller payload, faster LCP.
+*/
+
+/* Alpine x-cloak: hide elements until Alpine initializes (prevents flash). */
+[x-cloak] { display: none !important; }
+
+@layer base {
+    :root {
+        --brand: 79 70 229;        /* brand-600  #4f46e5 */
+        --brand-fg: 255 255 255;
+        --ink: 15 23 42;           /* slate-900  */
+        --ink-soft: 71 85 105;     /* slate-600  */
+    }
+
+    html {
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+        @apply bg-white font-sans text-slate-700 antialiased;
+        text-rendering: optimizeLegibility;
+    }
+
+    h1, h2, h3, h4 {
+        @apply font-display font-semibold text-slate-900;
+        text-wrap: balance;
+    }
+
+    /* Honor reduced-motion preferences for accessibility. */
+    @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+}
+
+@layer components {
+    .container-px {
+        @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+    }
+
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2;
+    }
+    .btn-primary {
+        @apply btn bg-brand-600 text-white shadow-sm hover:bg-brand-700;
+    }
+    .btn-ghost {
+        @apply btn border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50;
+    }
+
+    .eyebrow {
+        @apply text-sm font-semibold uppercase tracking-wider text-brand-600;
+    }
+
+    /* Anchor offset so sticky-header in-page links don't hide section titles. */
+    .section-anchor {
+        scroll-margin-top: 6rem;
+    }
+}

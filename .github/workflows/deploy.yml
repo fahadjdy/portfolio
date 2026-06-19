@@ -1,0 +1,69 @@
+name: Deploy to FTP (fahad-jadiya.com)
+
+# Builds the frontend assets in CI (public/build is git-ignored), installs
+# production Composer deps, and deploys the whole app to the shared host over
+# explicit FTPS (port 21). The server has no SSH/Composer, so vendor/ IS
+# uploaded by the lftp script.
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch: # allows manual "Run workflow" from the Actions tab
+
+concurrency:
+  group: ftp-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build & deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, bcmath, gd, intl, zip, curl, fileinfo, pdo_mysql
+
+      # Vite's app.ts imports Ziggy from vendor/tightenco/ziggy, so vendor must
+      # exist at build time. Production install (no dev deps), optimized autoloader.
+      - name: Install Composer dependencies (production)
+        run: composer install --no-dev --no-interaction --prefer-dist --no-progress --no-scripts --optimize-autoloader
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Build production assets (Vite)
+        run: npm run build
+
+      - name: Install lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y lftp
+
+      # Explicit FTPS via lftp using the committed .github/deploy.lftp script.
+      # Shared hosts often break FTPS on the data channel with TLS 1.3, so the
+      # script forces TLS 1.2 and skips cert verification.
+      - name: Deploy via FTPS (lftp)
+        env:
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          lftp -u "fahadja2,$FTP_PASSWORD" ftp.fahad-jadiya.com -e "source .github/deploy.lftp"
+
+      # Best-effort post-deploy: prepare storage, run migrations, link storage,
+      # clear caches via the token-less web tool (requires DEPLOY_TOOLS=true).
+      - name: Prepare server (init, migrate, link, clear)
+        run: |
+          sleep 5
+          curl -skS --max-time 120 "https://fahad-jadiya.com/deploy/init"    || true; echo ""
+          curl -skS --max-time 120 "https://fahad-jadiya.com/deploy/migrate" || true; echo ""
+          curl -skS --max-time 120 "https://fahad-jadiya.com/deploy/link"    || true; echo ""
+          curl -skS --max-time 120 "https://fahad-jadiya.com/deploy/clear"   || true; echo ""

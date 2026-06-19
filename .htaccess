@@ -1,0 +1,23 @@
+# Fahad Jadiya Portfolio — root .htaccess
+# Used when the domain's document root is the PROJECT ROOT (the whole Laravel
+# app sits in public_html) instead of pointing directly at the /public folder.
+# It transparently forwards every request into public/ where Laravel's own
+# public/.htaccess + index.php take over.
+#
+# NOTE: The cleanest cPanel setup is to point the domain's document root directly
+# at the "public" folder. This file is the fallback when you can't.
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Already inside /public — let it through (prevents a rewrite loop).
+    RewriteCond %{REQUEST_URI} !^/public/
+
+    # Forward everything else into the public/ front controller.
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Block direct browsing of sensitive dotfiles / files just in case.
+<FilesMatch "^\.(env|git.*)|composer\.(json|lock)$">
+    Require all denied
+</FilesMatch>

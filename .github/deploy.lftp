@@ -1,0 +1,47 @@
+# lftp deploy script for the Fahad Jadiya portfolio (run by .github/workflows/deploy.yml).
+# Credentials + host are passed on the lftp command line; this file holds the TLS
+# settings and the upload (mirror) rules.
+
+# --- Explicit FTPS, hardened for flaky shared-hosting data channels ---
+set ftp:ssl-force true
+set ftp:ssl-protect-data true
+set ssl:verify-certificate no
+# Many shared FTPS servers mishandle TLS 1.3 on the data socket
+# ("SSL alert number 50 / decode error") — force TLS 1.2.
+set ssl:priority "NORMAL:-VERS-TLS1.3"
+set ftp:passive-mode true
+set net:timeout 20
+set net:max-retries 3
+set net:persist-retries 3
+set mirror:parallel-transfer-count 3
+
+# --- Upload the app into the site root (skip vendor/node_modules/dev files) ---
+# The main domain's document root is public_html. If your FTP login lands DIRECTLY
+# inside public_html, change every "public_html/" below to "./".
+# NOTE: storage/ and bootstrap/cache ship (only their .gitignore exists in the
+# repo) so Laravel's writable folders exist on the server. Runtime logs/cache are
+# git-ignored so nothing sensitive is uploaded.
+mirror -R --verbose --no-perms --exclude '^\.git' --exclude '^\.github/' --exclude '^node_modules/' --exclude '^vendor/' --exclude '^tests/' --exclude '^scripts/' --exclude '^\.env' --exclude '\.(md|pdf|sql)$' ./ public_html/
+
+# --- Upload Composer packages (size-based incremental). With an unchanged
+#     composer.lock the package files are byte-identical across builds, so
+#     skipping same-size files is safe and fast. EXCLUDE vendor/composer/ here —
+#     the autoloader is handled separately below.
+mirror -R --verbose --no-perms --ignore-time --parallel=4 --exclude '^composer/' vendor/ public_html/vendor/
+
+# --- ALWAYS refresh the Composer autoloader. `composer install` regenerates a
+#     random hash (ComposerStaticInit<hash>) every build but the file SIZE stays
+#     the same, so a size-based comparison would skip it → "Class
+#     ComposerStaticInit... not found". Re-upload it fully every time.
+mirror -R --verbose --no-perms --parallel=4 vendor/composer/ public_html/vendor/composer/
+put -O public_html/vendor vendor/autoload.php
+
+# --- Clear stale Laravel caches so newly deployed routes/config/packages take
+#     effect immediately. rm -f ignores files that don't exist.
+rm -f public_html/bootstrap/cache/config.php
+rm -f public_html/bootstrap/cache/routes-v7.php
+rm -f public_html/bootstrap/cache/packages.php
+rm -f public_html/bootstrap/cache/services.php
+rm -f public_html/bootstrap/cache/events.scanned.php
+
+bye
