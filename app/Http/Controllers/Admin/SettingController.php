@@ -10,9 +10,7 @@ use Inertia\Inertia;
 
 class SettingController extends Controller
 {
-    public function __construct(private SettingsService $settings, private ImageService $images)
-    {
-    }
+    public function __construct(private SettingsService $settings, private ImageService $images) {}
 
     public function index()
     {

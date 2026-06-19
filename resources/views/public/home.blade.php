@@ -2,19 +2,19 @@
 
 @section('content')
     {{-- ===================== HERO ===================== --}}
-    @php($heroData = $hero->data ?? [])
+    @php($heroData = $hero?->data ?? [])
     <section class="relative overflow-hidden">
         <div class="absolute inset-0 -z-10 bg-gradient-to-b from-brand-50 via-white to-white"></div>
         <div class="absolute -top-24 right-0 -z-10 h-72 w-72 rounded-full bg-brand-200/40 blur-3xl"></div>
 
         <div class="container-px py-20 sm:py-28">
             <div class="mx-auto max-w-3xl text-center">
-                <p class="eyebrow">{{ $hero->subheading ?? 'Senior Full-Stack Developer' }}</p>
+                <p class="eyebrow">{{ $hero?->subheading ?? 'Senior Full-Stack Developer' }}</p>
                 <h1 class="mt-4 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-6xl">
-                    {{ $hero->heading ?? 'I build fast, scalable web apps & SaaS platforms' }}
+                    {{ $hero?->heading ?? 'I build fast, scalable web apps & SaaS platforms' }}
                 </h1>
                 <p class="mx-auto mt-6 max-w-2xl text-lg text-slate-600">
-                    {{ $hero->body ?? "I design and ship production-grade systems with Laravel, Vue and MySQL." }}
+                    {{ $hero?->body ?? "I design and ship production-grade systems with Laravel, Vue and MySQL." }}
                 </p>
                 <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
                     <a href="{{ route('projects.index') }}" class="btn-primary">View my work <x-icon name="arrow-right" class="h-4 w-4" /></a>

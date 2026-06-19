@@ -10,9 +10,7 @@ use Inertia\Inertia;
 
 class PageController extends Controller
 {
-    public function __construct(private ImageService $images)
-    {
-    }
+    public function __construct(private ImageService $images) {}
 
     public function index()
     {

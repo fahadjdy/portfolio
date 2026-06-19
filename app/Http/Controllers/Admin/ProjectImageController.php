@@ -10,9 +10,7 @@ use Illuminate\Http\Request;
 
 class ProjectImageController extends Controller
 {
-    public function __construct(private ImageService $images)
-    {
-    }
+    public function __construct(private ImageService $images) {}
 
     public function store(Request $request, Project $project)
     {

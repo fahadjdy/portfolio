@@ -28,9 +28,7 @@ abstract class CrudController extends Controller
 
     protected string $uploadDir = 'images';
 
-    public function __construct(protected ImageService $images)
-    {
-    }
+    public function __construct(protected ImageService $images) {}
 
     abstract protected function columns(): array;
 
@@ -158,7 +156,5 @@ abstract class CrudController extends Controller
         $item->save();
     }
 
-    protected function beforeDelete(Model $item): void
-    {
-    }
+    protected function beforeDelete(Model $item): void {}
 }

@@ -104,7 +104,7 @@ if (config('platform.deploy_tools')) {
 
             return response("✓ deploy/{$action} completed:\n\n".$output, 200)
                 ->header('Content-Type', 'text/plain; charset=utf-8');
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return response("✗ deploy/{$action} failed:\n\n".$e->getMessage(), 500)
                 ->header('Content-Type', 'text/plain; charset=utf-8');
         }
