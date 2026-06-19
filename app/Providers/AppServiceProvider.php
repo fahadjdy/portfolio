@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\SocialLink;
 use App\Services\SettingsService;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,5 +24,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Vite::prefetch(concurrency: 3);
+
+        // Share active social links with the public layout partials.
+        View::composer(['layouts.partials.header', 'layouts.partials.footer'], function ($view) {
+            $view->with('socials', SocialLink::active()->ordered()->get());
+        });
     }
 }

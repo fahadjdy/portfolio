@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Controllers\Public\ContactController;
+use App\Http\Controllers\Public\HomeController;
+use App\Http\Controllers\Public\PageController;
+use App\Http\Controllers\Public\ProjectController;
+use App\Http\Controllers\Public\ResumeController;
+use App\Http\Controllers\Public\ServiceController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -12,9 +18,15 @@ use Illuminate\Support\Facades\Route;
 | /admin and is wired in Phase 2.
 */
 
-Route::get('/', function () {
-    return view('public.home');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+Route::get('/projects/{project:slug}', [ProjectController::class, 'show'])->name('projects.show');
+Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+Route::get('/services/{service:slug}', [ServiceController::class, 'show'])->name('services.show');
+Route::get('/contact', [ContactController::class, 'show'])->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:8,1')->name('contact.store');
+Route::get('/resume/download', [ResumeController::class, 'download'])->name('resume.download');
 
 /*
 |--------------------------------------------------------------------------
