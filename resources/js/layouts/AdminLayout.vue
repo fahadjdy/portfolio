@@ -27,6 +27,7 @@ function logout() {
 }
 
 const user = computed(() => page.props.auth?.user);
+const branding = computed(() => page.props.branding ?? { name: 'Fahad Jadiya', logo: null });
 const pageTitle = computed(() => props.breadcrumbs?.length ? props.breadcrumbs[props.breadcrumbs.length - 1].title : 'Dashboard');
 
 const groups = [
@@ -84,11 +85,14 @@ function badge(key?: string): number {
         >
             <div class="flex h-16 items-center gap-2 border-b border-slate-200 px-5 dark:border-slate-800">
                 <Link :href="route('dashboard')" class="flex items-center gap-2">
-                    <span class="grid h-9 w-9 place-items-center rounded-lg bg-brand-600 text-sm font-bold text-white">FJ</span>
-                    <div class="leading-tight">
-                        <p class="font-display text-sm font-bold text-slate-900 dark:text-white">Fahad Jadiya</p>
-                        <p class="text-xs text-slate-400">Admin panel</p>
-                    </div>
+                    <img v-if="branding.logo" :src="branding.logo" :alt="branding.name" class="h-9 w-auto max-w-[150px] object-contain" />
+                    <template v-else>
+                        <span class="grid h-9 w-9 place-items-center rounded-lg bg-brand-600 text-sm font-bold text-white">FJ</span>
+                        <div class="leading-tight">
+                            <p class="font-display text-sm font-bold text-slate-900 dark:text-white">{{ branding.name }}</p>
+                            <p class="text-xs text-slate-400">Admin panel</p>
+                        </div>
+                    </template>
                 </Link>
                 <button @click="sidebarOpen = false" class="ml-auto text-slate-400 lg:hidden"><X class="h-5 w-5" /></button>
             </div>

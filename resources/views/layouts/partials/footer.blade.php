@@ -9,10 +9,14 @@
     <div class="container-px grid gap-8 py-12 md:grid-cols-4">
         <div class="md:col-span-2">
             <a href="{{ route('home') }}" class="flex items-center gap-2 font-display text-lg font-bold text-slate-900">
-                <span class="grid h-9 w-9 place-items-center rounded-lg bg-brand-600 text-sm font-bold text-white">
-                    {{ \Illuminate\Support\Str::of($siteName)->explode(' ')->map(fn ($w) => \Illuminate\Support\Str::substr($w, 0, 1))->take(2)->implode('') }}
-                </span>
-                {{ $siteName }}
+                @if(setting_image('logo'))
+                    <img src="{{ setting_image('logo') }}" alt="{{ $siteName }}" class="h-9 w-auto">
+                @else
+                    <span class="grid h-9 w-9 place-items-center rounded-lg bg-brand-600 text-sm font-bold text-white">
+                        {{ \Illuminate\Support\Str::of($siteName)->explode(' ')->map(fn ($w) => \Illuminate\Support\Str::substr($w, 0, 1))->take(2)->implode('') }}
+                    </span>
+                    {{ $siteName }}
+                @endif
             </a>
             <p class="mt-3 max-w-sm text-sm text-slate-600">
                 {{ $tagline }} — building scalable web apps, SaaS platforms, CRMs and AI-powered products with Laravel &amp; Vue.

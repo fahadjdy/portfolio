@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
 import { LoaderCircle, Eye, EyeOff, ArrowLeft, Check } from 'lucide-vue-next';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 defineProps<{
     status?: string;
     canResetPassword: boolean;
 }>();
+
+const branding = computed(() => (usePage().props as any).branding ?? { name: 'Fahad Jadiya', logo: null });
 
 const form = useForm({
     email: '',
@@ -39,8 +41,11 @@ const perks = [
             <div class="absolute -bottom-24 -right-16 h-80 w-80 rounded-full bg-white/10 blur-3xl"></div>
 
             <a href="/" class="relative flex items-center gap-3">
-                <span class="grid h-11 w-11 place-items-center rounded-xl bg-white/15 font-display text-lg font-bold backdrop-blur">FJ</span>
-                <span class="font-display text-xl font-bold">Fahad Jadiya</span>
+                <span v-if="branding.logo" class="grid place-items-center rounded-xl bg-white/95 px-3 py-2"><img :src="branding.logo" :alt="branding.name" class="h-8 w-auto" /></span>
+                <template v-else>
+                    <span class="grid h-11 w-11 place-items-center rounded-xl bg-white/15 font-display text-lg font-bold backdrop-blur">FJ</span>
+                    <span class="font-display text-xl font-bold">{{ branding.name }}</span>
+                </template>
             </a>
 
             <div class="relative max-w-md">
@@ -61,8 +66,11 @@ const perks = [
         <div class="flex w-full flex-col justify-center px-6 py-12 sm:px-12 lg:w-1/2">
             <div class="mx-auto w-full max-w-sm">
                 <a href="/" class="mb-8 flex items-center gap-2 lg:hidden">
-                    <span class="grid h-10 w-10 place-items-center rounded-xl bg-brand-600 font-display text-base font-bold text-white">FJ</span>
-                    <span class="font-display text-lg font-bold text-slate-900 dark:text-white">Fahad Jadiya</span>
+                    <img v-if="branding.logo" :src="branding.logo" :alt="branding.name" class="h-10 w-auto" />
+                    <template v-else>
+                        <span class="grid h-10 w-10 place-items-center rounded-xl bg-brand-600 font-display text-base font-bold text-white">FJ</span>
+                        <span class="font-display text-lg font-bold text-slate-900 dark:text-white">{{ branding.name }}</span>
+                    </template>
                 </a>
 
                 <h2 class="font-display text-2xl font-bold text-slate-900 dark:text-white">Sign in</h2>
