@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
+import { ChevronUp, ChevronDown, Pencil, Plus, Trash2 } from 'lucide-vue-next';
 import { ref, watch } from 'vue';
 
 const props = defineProps<{ projects: any[] }>();
@@ -28,7 +29,7 @@ const breadcrumbs = [{ title: 'Projects', href: route('admin.projects.index') }]
         <div class="p-4">
             <div class="mb-5 flex items-center justify-between">
                 <h1 class="text-xl font-bold text-slate-900 dark:text-white">Projects</h1>
-                <Link :href="route('admin.projects.create')" class="rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700">+ New Project</Link>
+                <Link :href="route('admin.projects.create')" class="inline-flex items-center gap-1.5 rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700"><Plus class="h-4 w-4" /> New Project</Link>
             </div>
 
             <div class="overflow-hidden rounded-xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800">
@@ -40,8 +41,8 @@ const breadcrumbs = [{ title: 'Projects', href: route('admin.projects.index') }]
                         <tr v-for="(p, i) in rows" :key="p.id" class="hover:bg-slate-50 dark:hover:bg-slate-900/30">
                             <td class="px-4 py-3">
                                 <div class="flex flex-col gap-0.5">
-                                    <button @click="move(i, -1)" :disabled="i === 0" class="text-slate-400 hover:text-brand-600 disabled:opacity-30">▲</button>
-                                    <button @click="move(i, 1)" :disabled="i === rows.length - 1" class="text-slate-400 hover:text-brand-600 disabled:opacity-30">▼</button>
+                                    <button @click="move(i, -1)" :disabled="i === 0" class="text-slate-400 hover:text-brand-600 disabled:opacity-30"><ChevronUp class="h-4 w-4" /></button>
+                                    <button @click="move(i, 1)" :disabled="i === rows.length - 1" class="text-slate-400 hover:text-brand-600 disabled:opacity-30"><ChevronDown class="h-4 w-4" /></button>
                                 </div>
                             </td>
                             <td class="px-4 py-3"><span class="font-medium text-slate-900 dark:text-white">{{ p.title }}</span><p class="text-xs text-slate-400">{{ p.category }}</p></td>
@@ -49,8 +50,8 @@ const breadcrumbs = [{ title: 'Projects', href: route('admin.projects.index') }]
                             <td class="px-4 py-3 text-slate-600 dark:text-slate-300">{{ p.panels_count }}</td>
                             <td class="px-4 py-3">{{ p.is_featured ? '★' : '—' }}</td>
                             <td class="px-4 py-3 text-right">
-                                <Link :href="route('admin.projects.edit', p.id)" class="text-sm font-medium text-brand-700 hover:underline">Edit</Link>
-                                <button @click="destroy(p.id)" class="ml-3 text-sm font-medium text-rose-600 hover:underline">Delete</button>
+                                <Link :href="route('admin.projects.edit', p.id)" class="inline-flex items-center gap-1 text-sm font-medium text-brand-700 hover:underline"><Pencil class="h-3.5 w-3.5" /> Edit</Link>
+                                <button @click="destroy(p.id)" class="ml-3 inline-flex items-center gap-1 text-sm font-medium text-rose-600 hover:underline"><Trash2 class="h-3.5 w-3.5" /> Delete</button>
                             </td>
                         </tr>
                         <tr v-if="rows.length === 0"><td colspan="6" class="px-4 py-10 text-center text-slate-400">No projects yet.</td></tr>

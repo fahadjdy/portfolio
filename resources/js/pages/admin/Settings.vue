@@ -5,6 +5,7 @@ import ToggleField from '@/components/form/ToggleField.vue';
 import ImageField from '@/components/form/ImageField.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
+import { Save } from 'lucide-vue-next';
 
 const props = defineProps<{ values: Record<string, any> }>();
 
@@ -70,7 +71,7 @@ const breadcrumbs = [{ title: 'Settings', href: route('admin.settings.index') }]
                 </div>
             </section>
 
-            <button type="submit" :disabled="form.processing" class="rounded-lg bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700 disabled:opacity-60">Save settings</button>
+            <button type="submit" :disabled="form.processing" class="inline-flex items-center gap-1.5 rounded-lg bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700 disabled:opacity-60"><Save class="h-4 w-4" /> Save settings</button>
         </form>
     </AppLayout>
 </template>

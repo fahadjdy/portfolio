@@ -64,6 +64,8 @@
 
     @include('layouts.partials.footer')
 
+    @include('layouts.partials.whatsapp')
+
     @stack('scripts')
 </body>
 </html>

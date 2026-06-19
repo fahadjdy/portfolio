@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
+import { Inbox, Mail, FolderKanban, Download } from 'lucide-vue-next';
 
 defineProps<{
     stats: Record<string, number>;
@@ -11,10 +12,10 @@ defineProps<{
 const breadcrumbs = [{ title: 'Dashboard', href: '/admin/dashboard' }];
 
 const cards = [
-    { key: 'leadsNew', label: 'New leads', accent: 'text-brand-600' },
-    { key: 'leadsTotal', label: 'Total leads' },
-    { key: 'projectsPublished', label: 'Published projects' },
-    { key: 'cvDownloads', label: 'CV downloads' },
+    { key: 'leadsNew', label: 'New leads', accent: 'text-brand-600', icon: Inbox },
+    { key: 'leadsTotal', label: 'Total leads', icon: Mail },
+    { key: 'projectsPublished', label: 'Published projects', icon: FolderKanban },
+    { key: 'cvDownloads', label: 'CV downloads', icon: Download },
 ];
 </script>
 
@@ -24,8 +25,11 @@ const cards = [
         <div class="space-y-6 p-4">
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <div v-for="c in cards" :key="c.key" class="rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-800">
-                    <p class="text-sm text-slate-500">{{ c.label }}</p>
-                    <p class="mt-1 text-3xl font-extrabold" :class="c.accent || 'text-slate-900 dark:text-white'">{{ stats[c.key] ?? 0 }}</p>
+                    <div class="flex items-center justify-between">
+                        <p class="text-sm text-slate-500">{{ c.label }}</p>
+                        <span class="grid h-9 w-9 place-items-center rounded-lg bg-brand-50 text-brand-600 dark:bg-brand-600/20 dark:text-brand-300"><component :is="c.icon" class="h-4 w-4" /></span>
+                    </div>
+                    <p class="mt-2 text-3xl font-extrabold" :class="c.accent || 'text-slate-900 dark:text-white'">{{ stats[c.key] ?? 0 }}</p>
                 </div>
             </div>
 

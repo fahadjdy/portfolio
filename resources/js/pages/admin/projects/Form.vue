@@ -8,6 +8,7 @@ import ImageField from '@/components/form/ImageField.vue';
 import TagSelect from '@/components/form/TagSelect.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
+import { Plus, Save } from 'lucide-vue-next';
 
 const props = defineProps<{
     project: any | null;
@@ -120,7 +121,7 @@ const breadcrumbs = [
             <section class="rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-800">
                 <div class="mb-4 flex items-center justify-between">
                     <h2 class="text-sm font-semibold text-slate-900 dark:text-white">Panels &amp; features</h2>
-                    <button type="button" @click="addPanel" class="rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium text-brand-700 hover:bg-brand-50 dark:border-slate-600">+ Add panel</button>
+                    <button type="button" @click="addPanel" class="inline-flex items-center gap-1 rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium text-brand-700 hover:bg-brand-50 dark:border-slate-600 dark:hover:bg-slate-700"><Plus class="h-4 w-4" /> Add panel</button>
                 </div>
                 <div class="space-y-4">
                     <div v-for="(panel, pi) in form.panels" :key="pi" class="rounded-lg border border-slate-200 p-4 dark:border-slate-700">
@@ -153,7 +154,7 @@ const breadcrumbs = [
             </section>
 
             <div class="flex items-center gap-3">
-                <button type="submit" :disabled="form.processing" class="rounded-lg bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700 disabled:opacity-60">{{ isEdit ? 'Save project' : 'Create project' }}</button>
+                <button type="submit" :disabled="form.processing" class="inline-flex items-center gap-1.5 rounded-lg bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700 disabled:opacity-60"><Save class="h-4 w-4" /> {{ isEdit ? 'Save project' : 'Create project' }}</button>
                 <Link :href="route('admin.projects.index')" class="text-sm font-medium text-slate-500 hover:text-slate-700">Cancel</Link>
             </div>
         </form>

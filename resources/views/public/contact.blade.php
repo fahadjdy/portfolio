@@ -26,6 +26,16 @@
                             </div>
                         </div>
                     @endif
+                    @php($waDigits = preg_replace('/\D+/', '', (string) settings('whatsapp')))
+                    @if($waDigits)
+                        <div class="flex items-start gap-3">
+                            <div class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-emerald-50 text-emerald-600"><x-icon name="phone" class="h-5 w-5" /></div>
+                            <div>
+                                <h2 class="text-sm font-semibold text-slate-900">WhatsApp</h2>
+                                <a href="https://wa.me/{{ $waDigits }}" target="_blank" rel="noopener" class="text-sm text-slate-600 hover:text-brand-700">Chat on WhatsApp</a>
+                            </div>
+                        </div>
+                    @endif
                     <div class="flex items-start gap-3">
                         <div class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand-50 text-brand-700"><x-icon name="map-pin" class="h-5 w-5" /></div>
                         <div>

@@ -8,6 +8,7 @@ import ImageField from '@/components/form/ImageField.vue';
 import TagSelect from '@/components/form/TagSelect.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Save } from 'lucide-vue-next';
 
 interface Field {
     name: string;
@@ -80,8 +81,8 @@ function submit() {
                 </template>
 
                 <div class="flex items-center gap-3 pt-2">
-                    <button type="submit" :disabled="form.processing" class="rounded-lg bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700 disabled:opacity-60">
-                        {{ isEdit ? 'Save changes' : 'Create' }}
+                    <button type="submit" :disabled="form.processing" class="inline-flex items-center gap-1.5 rounded-lg bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700 disabled:opacity-60">
+                        <Save class="h-4 w-4" /> {{ isEdit ? 'Save changes' : 'Create' }}
                     </button>
                     <Link :href="route(resource.routeBase + '.index')" class="text-sm font-medium text-slate-500 hover:text-slate-700">Cancel</Link>
                 </div>

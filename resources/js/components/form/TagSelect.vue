@@ -15,7 +15,7 @@ function toggle(current: number[], value: number) {
 
 <template>
     <div>
-        <label v-if="label" class="mb-1.5 block text-sm font-medium text-slate-700">{{ label }}</label>
+        <label v-if="label" class="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">{{ label }}</label>
         <div class="flex flex-wrap gap-2">
             <button
                 v-for="opt in options"
@@ -23,8 +23,8 @@ function toggle(current: number[], value: number) {
                 type="button"
                 @click="toggle(modelValue, opt.value)"
                 :class="(modelValue || []).includes(opt.value)
-                    ? 'border-brand-500 bg-brand-50 text-brand-700'
-                    : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'"
+                    ? 'border-brand-500 bg-brand-50 text-brand-700 dark:bg-brand-600/20 dark:text-brand-300'
+                    : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'"
                 class="rounded-full border px-3 py-1 text-xs font-medium transition"
             >
                 {{ opt.label }}

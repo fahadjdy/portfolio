@@ -2,6 +2,8 @@
     $siteName = settings('site_name', 'Fahad Jadiya');
     $tagline = settings('tagline', 'Senior Full-Stack Developer');
     $contactEmail = settings('contact_email', 'fahadjdy12@gmail.com');
+    $contactPhone = settings('contact_phone');
+    $waDigits = preg_replace('/\D+/', '', (string) settings('whatsapp'));
 @endphp
 <footer class="border-t border-slate-200 bg-slate-50">
     <div class="container-px grid gap-8 py-12 md:grid-cols-4">
@@ -43,6 +45,8 @@
             <h2 class="text-sm font-semibold text-slate-900">Get in touch</h2>
             <ul class="mt-3 space-y-2 text-sm text-slate-600">
                 <li><a class="hover:text-brand-700" href="mailto:{{ $contactEmail }}">{{ $contactEmail }}</a></li>
+                @if($contactPhone)<li><a class="hover:text-brand-700" href="tel:{{ preg_replace('/[^0-9+]/', '', $contactPhone) }}">{{ $contactPhone }}</a></li>@endif
+                @if($waDigits)<li><a class="hover:text-brand-700" href="https://wa.me/{{ $waDigits }}" target="_blank" rel="noopener">WhatsApp</a></li>@endif
                 <li><a class="btn-primary mt-2 !px-4 !py-2 text-xs" href="{{ route('contact') }}">Start a project</a></li>
             </ul>
         </div>

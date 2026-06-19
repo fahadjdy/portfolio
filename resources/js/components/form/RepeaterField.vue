@@ -22,7 +22,7 @@ function set(current: string[], i: number, val: string) {
 
 <template>
     <div>
-        <label v-if="label" class="mb-1.5 block text-sm font-medium text-slate-700">{{ label }}</label>
+        <label v-if="label" class="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">{{ label }}</label>
         <p v-if="hint" class="mb-2 text-xs text-slate-400">{{ hint }}</p>
         <div class="space-y-2">
             <div v-for="(item, i) in (modelValue || [])" :key="i" class="flex items-center gap-2">
@@ -30,9 +30,9 @@ function set(current: string[], i: number, val: string) {
                     :value="item"
                     :placeholder="placeholder"
                     @input="set(modelValue, i, ($event.target as HTMLInputElement).value)"
-                    class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+                    class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
                 />
-                <button type="button" @click="remove(modelValue, i)" class="shrink-0 rounded-lg border border-slate-200 px-2.5 py-2 text-slate-400 hover:text-rose-600">&times;</button>
+                <button type="button" @click="remove(modelValue, i)" class="shrink-0 rounded-lg border border-slate-200 px-2.5 py-2 text-slate-400 hover:text-rose-600 dark:border-slate-700">&times;</button>
             </div>
         </div>
         <button type="button" @click="add(modelValue)" class="mt-2 text-sm font-medium text-brand-700 hover:text-brand-800">+ Add item</button>
