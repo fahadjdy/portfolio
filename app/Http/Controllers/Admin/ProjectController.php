@@ -67,6 +67,7 @@ class ProjectController extends Controller
                     'id' => $img->id,
                     'url' => $img->url,
                     'alt' => $img->alt,
+                    'is_cover' => in_array($project->cover_image, [$img->path_webp, $img->path], true),
                 ])->values(),
             ],
             'techTags' => $this->techOptions(),

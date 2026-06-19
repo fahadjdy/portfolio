@@ -65,6 +65,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         // Projects (with nested panels/features synced inline + separate gallery)
         Route::resource('projects', ProjectController::class)->except('show');
         Route::post('projects/{project}/images', [ProjectImageController::class, 'store'])->name('projects.images.store');
+        Route::post('project-images/{image}/cover', [ProjectImageController::class, 'makeCover'])->name('project_images.cover');
         Route::delete('project-images/{image}', [ProjectImageController::class, 'destroy'])->name('project_images.destroy');
 
         // Pages (Hero / About singletons)

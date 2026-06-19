@@ -127,16 +127,17 @@
                 </div>
             @endif
 
-            {{-- Gallery --}}
+            {{-- Gallery (lightGallery lightbox) --}}
             @if($project->images->isNotEmpty())
                 <div>
                     <h2 class="font-display text-2xl font-bold text-slate-900">Screens</h2>
-                    <div class="mt-5 grid gap-4 sm:grid-cols-2">
+                    <p class="mt-1 text-sm text-slate-500">Click any image to open the gallery.</p>
+                    <div data-lightgallery class="mt-5 grid gap-4 sm:grid-cols-2">
                         @foreach($project->images as $image)
-                            <figure class="overflow-hidden rounded-xl border border-slate-200">
-                                <x-picture :src="$image->url" :webp="$image->webp_url" :alt="$image->alt ?: $project->title" :width="$image->width" :height="$image->height" class="w-full" />
-                                @if($image->caption)<figcaption class="px-3 py-2 text-xs text-slate-500">{{ $image->caption }}</figcaption>@endif
-                            </figure>
+                            <a href="{{ $image->url }}" data-sub-html="{{ $image->caption ?: $project->title }}"
+                               class="group block cursor-zoom-in overflow-hidden rounded-xl border border-slate-200">
+                                <x-picture :src="$image->url" :webp="$image->webp_url" :alt="$image->alt ?: $project->title" :width="$image->width" :height="$image->height" class="w-full transition duration-300 group-hover:scale-105" />
+                            </a>
                         @endforeach
                     </div>
                 </div>

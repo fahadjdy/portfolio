@@ -41,6 +41,13 @@ class ProjectImageController extends Controller
         return back()->with('success', 'Images uploaded.');
     }
 
+    public function makeCover(ProjectImage $image)
+    {
+        $image->project->update(['cover_image' => $image->path_webp ?: $image->path]);
+
+        return back()->with('success', 'Banner image updated.');
+    }
+
     public function destroy(ProjectImage $image)
     {
         $this->images->delete(

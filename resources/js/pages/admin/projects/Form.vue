@@ -8,7 +8,7 @@ import ImageField from '@/components/form/ImageField.vue';
 import TagSelect from '@/components/form/TagSelect.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
-import { Plus, Save } from 'lucide-vue-next';
+import { Plus, Save, Star, Trash2 } from 'lucide-vue-next';
 
 const props = defineProps<{
     project: any | null;
@@ -65,6 +65,9 @@ function uploadImages() {
 }
 function deleteImage(id: number) {
     if (confirm('Delete this image?')) router.delete(route('admin.project_images.destroy', id), { preserveScroll: true });
+}
+function makeCover(id: number) {
+    router.post(route('admin.project_images.cover', id), {}, { preserveScroll: true });
 }
 
 const breadcrumbs = [
@@ -168,10 +171,17 @@ const breadcrumbs = [
                     <input v-model="gallery.alt" placeholder="Alt text (optional)" class="rounded-lg border border-slate-300 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-900" />
                     <button type="button" @click="uploadImages" :disabled="gallery.processing || gallery.images.length === 0" class="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50 dark:bg-slate-200 dark:text-slate-900">Upload</button>
                 </div>
-                <div v-if="p?.images?.length" class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                <p v-if="p?.images?.length" class="mt-3 text-xs text-slate-500">Hover an image to set it as the listing <strong>banner</strong> or delete it.</p>
+                <div v-if="p?.images?.length" class="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
                     <div v-for="img in p.images" :key="img.id" class="group relative overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700">
                         <img :src="img.url" :alt="img.alt" class="aspect-video w-full object-cover" />
-                        <button type="button" @click="deleteImage(img.id)" class="absolute right-1 top-1 rounded bg-rose-600 px-1.5 py-0.5 text-xs text-white opacity-0 transition group-hover:opacity-100">Delete</button>
+                        <span v-if="img.is_cover" class="absolute left-1.5 top-1.5 inline-flex items-center gap-1 rounded bg-amber-400 px-1.5 py-0.5 text-[10px] font-bold text-slate-900"><Star class="h-3 w-3" /> Banner</span>
+                        <div class="absolute inset-x-0 bottom-0 flex items-center justify-between gap-1 bg-gradient-to-t from-black/70 to-transparent p-1.5 opacity-0 transition group-hover:opacity-100">
+                            <button type="button" @click="makeCover(img.id)" :disabled="img.is_cover" class="inline-flex items-center gap-1 rounded bg-white/90 px-1.5 py-0.5 text-[10px] font-semibold text-slate-800 hover:bg-white disabled:opacity-50">
+                                <Star class="h-3 w-3" /> {{ img.is_cover ? 'Banner' : 'Set banner' }}
+                            </button>
+                            <button type="button" @click="deleteImage(img.id)" class="grid h-6 w-6 place-items-center rounded bg-rose-600 text-white hover:bg-rose-700"><Trash2 class="h-3 w-3" /></button>
+                        </div>
                     </div>
                 </div>
             </section>
