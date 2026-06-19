@@ -36,15 +36,6 @@ Route::get('/llms.txt', [SeoController::class, 'llms'])->name('llms');
 
 /*
 |--------------------------------------------------------------------------
-| Admin (Inertia + Vue) — placeholder until Phase 2
-|--------------------------------------------------------------------------
-*/
-Route::get('dashboard', function () {
-    return Inertia\Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-/*
-|--------------------------------------------------------------------------
 | Deployment helpers (shared hosting, no CLI access)
 |--------------------------------------------------------------------------
 | Token-less GET URLs so safe Artisan tasks can be run from the browser.
@@ -120,5 +111,6 @@ if (config('platform.deploy_tools')) {
     })->where('action', 'init|migrate|seed|clear|cache|link')->name('deploy.run');
 }
 
+require __DIR__.'/admin.php';
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
