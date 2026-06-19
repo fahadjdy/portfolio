@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    {{-- Google Analytics (GA4) — loads only when an ID is set, and only in production. --}}
+    @if(($gaId = settings('google_analytics_id')) && app()->environment('production'))
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ $gaId }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '{{ $gaId }}');
+        </script>
+    @endif
+
     {{-- SEO meta (settings-driven; per-page schema/OG expanded in Phases 4–5) --}}
     @php
         $siteName = settings('site_name', 'Fahad Jadiya');
