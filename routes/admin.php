@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\BlogCategoryController;
+use App\Http\Controllers\Admin\BlogPostController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EducationController;
 use App\Http\Controllers\Admin\ExperienceController;
 use App\Http\Controllers\Admin\LeadController;
+use App\Http\Controllers\Admin\MaintenanceController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ProjectImageController;
@@ -40,6 +43,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
             'services' => ServiceController::class,
             'testimonials' => TestimonialController::class,
             'social-links' => SocialLinkController::class,
+            'blog-categories' => BlogCategoryController::class,
             'projects' => ProjectController::class,
         ] as $uri => $controller) {
             Route::post("{$uri}/reorder", [$controller, 'reorder'])->name(str_replace('-', '_', $uri).'.reorder');
@@ -54,6 +58,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         Route::resource('services', ServiceController::class)->except('show');
         Route::resource('testimonials', TestimonialController::class)->except('show');
         Route::resource('social-links', SocialLinkController::class)->except('show');
+        Route::resource('blog-categories', BlogCategoryController::class)->except('show');
+        Route::resource('blog-posts', BlogPostController::class)->except('show');
         Route::resource('resumes', ResumeController::class)->only(['index', 'store', 'destroy']);
 
         // Projects (with nested panels/features synced inline + separate gallery)
@@ -68,5 +74,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         // Settings (General / SEO / Contact)
         Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
         Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
+
+        // Maintenance tools (login-only deploy helpers)
+        Route::get('tools', [MaintenanceController::class, 'index'])->name('tools.index');
+        Route::get('tools/{action}', [MaintenanceController::class, 'run'])
+            ->where('action', 'migrate|seed|storage|clear|cache')->name('tools.run');
     });
 });

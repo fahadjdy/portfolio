@@ -42,7 +42,7 @@ class BlogPost extends Model
 
     public function techTags(): BelongsToMany
     {
-        return $this->belongsToMany(TechTag::class);
+        return $this->belongsToMany(TechTag::class, 'blog_post_tag');
     }
 
     public function scopePublished(Builder $query): Builder

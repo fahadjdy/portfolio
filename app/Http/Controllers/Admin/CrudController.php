@@ -125,6 +125,7 @@ abstract class CrudController extends Controller
     protected function persist(Model $item, Request $request, array $data): void
     {
         $existing = $item->exists ? $item : null;
+        $tagFields = [];
 
         foreach ($this->fields($existing) as $field) {
             $name = $field['name'];
@@ -141,6 +142,12 @@ abstract class CrudController extends Controller
                 continue;
             }
 
+            if ($type === 'tags') {
+                $tagFields[] = $field; // belongsToMany, synced after save (needs id)
+
+                continue;
+            }
+
             if (! array_key_exists($name, $data)) {
                 if ($type === 'toggle') {
                     $item->{$name} = false; // unchecked toggles are absent
@@ -153,8 +160,15 @@ abstract class CrudController extends Controller
             $item->{$name} = ($value === '') ? null : $value;
         }
 
+        $this->beforeSave($item, $request, $data);
         $item->save();
+
+        foreach ($tagFields as $field) {
+            $item->{$field['relation']}()->sync($data[$field['name']] ?? []);
+        }
     }
+
+    protected function beforeSave(Model $item, Request $request, array $data): void {}
 
     protected function beforeDelete(Model $item): void {}
 }

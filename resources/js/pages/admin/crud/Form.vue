@@ -5,6 +5,7 @@ import SelectField from '@/components/form/SelectField.vue';
 import ToggleField from '@/components/form/ToggleField.vue';
 import RepeaterField from '@/components/form/RepeaterField.vue';
 import ImageField from '@/components/form/ImageField.vue';
+import TagSelect from '@/components/form/TagSelect.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
@@ -36,6 +37,7 @@ function initial(field: Field) {
         case 'toggle':
             return val ?? field.default ?? false;
         case 'repeater':
+        case 'tags':
             return Array.isArray(val) ? val : [];
         case 'image':
             return null;
@@ -72,6 +74,7 @@ function submit() {
                     <TextareaField v-else-if="field.type === 'textarea'" v-model="form[field.name]" :label="field.label" :rows="field.rows" :required="field.required" :placeholder="field.placeholder" :hint="field.hint" :error="form.errors[field.name]" />
                     <SelectField v-else-if="field.type === 'select'" v-model="form[field.name]" :options="field.options || []" :label="field.label" :required="field.required" :placeholder="field.placeholder" :error="form.errors[field.name]" />
                     <RepeaterField v-else-if="field.type === 'repeater'" v-model="form[field.name]" :label="field.label" :placeholder="field.placeholder" :hint="field.hint" />
+                    <TagSelect v-else-if="field.type === 'tags'" v-model="form[field.name]" :options="field.options || []" :label="field.label" />
                     <ImageField v-else-if="field.type === 'image'" v-model="form[field.name]" :label="field.label" :current="field.current" :hint="field.hint" :error="form.errors[field.name]" />
                     <TextField v-else v-model="form[field.name]" :type="field.type === 'number' ? 'number' : field.type === 'date' ? 'date' : 'text'" :label="field.label" :required="field.required" :placeholder="field.placeholder" :hint="field.hint" :error="form.errors[field.name]" />
                 </template>

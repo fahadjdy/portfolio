@@ -9,6 +9,7 @@ use App\Models\PageSection;
 use App\Models\Project;
 use App\Models\Service;
 use App\Models\SkillCategory;
+use App\Models\SocialLink;
 use App\Models\TechTag;
 use App\Models\Testimonial;
 use App\Services\SchemaBuilder;
@@ -21,6 +22,7 @@ class HomeController extends Controller
 
         return view('public.home', [
             'hero' => PageSection::forPage('home')->where('section_key', 'hero')->first(),
+            'socials' => SocialLink::active()->ordered()->get(),
             'aboutIntro' => PageSection::forPage('home')->where('section_key', 'about_intro')->first(),
             'skillCategories' => SkillCategory::active()->ordered()
                 ->with(['skills' => fn ($q) => $q->active()->ordered()])->get(),

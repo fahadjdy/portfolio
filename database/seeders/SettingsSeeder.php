@@ -35,7 +35,7 @@ class SettingsSeeder extends Seeder
             'contact_address' => 'India',
             'whatsapp' => '',
             'google_analytics_id' => '',
-            'blog_enabled' => false,
+            'blog_enabled' => true,
         ], group: 'contact', types: ['blog_enabled' => 'boolean']);
     }
 }

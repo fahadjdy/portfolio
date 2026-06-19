@@ -2,10 +2,12 @@
 
 namespace App\Services;
 
+use App\Models\BlogPost;
 use App\Models\Project;
 use App\Models\Service;
 use App\Models\SocialLink;
 use App\Models\TechTag;
+use Illuminate\Support\Str;
 
 /**
  * Builds schema.org JSON-LD as a single connected @graph per page (stable @ids),
@@ -115,5 +117,25 @@ class SchemaBuilder
             'provider' => ['@id' => url('/').'/#person'],
             'areaServed' => 'Worldwide',
         ];
+    }
+
+    public function article(BlogPost $post): array
+    {
+        $url = route('blog.show', $post);
+
+        return array_filter([
+            '@type' => 'BlogPosting',
+            '@id' => $url.'#article',
+            'headline' => $post->title,
+            'url' => $url,
+            'description' => $post->excerpt ?: Str::limit(strip_tags((string) $post->body), 155),
+            'datePublished' => $post->published_at?->toAtomString(),
+            'dateModified' => $post->updated_at?->toAtomString(),
+            'image' => $post->cover_image ? img_url($post->cover_image) : null,
+            'keywords' => $post->relationLoaded('techTags') ? ($post->techTags->pluck('name')->implode(', ') ?: null) : null,
+            'author' => ['@id' => url('/').'/#person'],
+            'publisher' => ['@id' => url('/').'/#person'],
+            'mainEntityOfPage' => $url,
+        ]);
     }
 }

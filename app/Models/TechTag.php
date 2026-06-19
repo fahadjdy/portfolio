@@ -32,7 +32,7 @@ class TechTag extends Model
 
     public function blogPosts(): BelongsToMany
     {
-        return $this->belongsToMany(BlogPost::class);
+        return $this->belongsToMany(BlogPost::class, 'blog_post_tag');
     }
 
     public function scopeActive(Builder $query): Builder

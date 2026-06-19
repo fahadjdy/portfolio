@@ -5,8 +5,11 @@
         ['label' => 'About', 'route' => 'about'],
         ['label' => 'Projects', 'route' => 'projects.index'],
         ['label' => 'Services', 'route' => 'services.index'],
-        ['label' => 'Contact', 'route' => 'contact'],
     ];
+    if (settings('blog_enabled')) {
+        $nav[] = ['label' => 'Blog', 'route' => 'blog.index'];
+    }
+    $nav[] = ['label' => 'Contact', 'route' => 'contact'];
 @endphp
 <header x-data="{ open: false, scrolled: false }"
         @scroll.window="scrolled = window.scrollY > 8"

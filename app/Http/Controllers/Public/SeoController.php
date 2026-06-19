@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Models\BlogPost;
 use App\Models\Project;
 use App\Models\Service;
 use Illuminate\Support\Facades\Cache;
@@ -25,6 +26,13 @@ class SeoController extends Controller
             }
             foreach (Service::active()->ordered()->get(['slug', 'updated_at']) as $s) {
                 $urls[] = ['loc' => route('services.show', $s->slug), 'lastmod' => $s->updated_at?->toAtomString(), 'priority' => '0.6', 'changefreq' => 'monthly'];
+            }
+
+            if (settings('blog_enabled')) {
+                $urls[] = ['loc' => route('blog.index'), 'priority' => '0.7', 'changefreq' => 'weekly'];
+                foreach (BlogPost::published()->orderByDesc('published_at')->get(['slug', 'updated_at']) as $b) {
+                    $urls[] = ['loc' => route('blog.show', $b->slug), 'lastmod' => $b->updated_at?->toAtomString(), 'priority' => '0.6', 'changefreq' => 'monthly'];
+                }
             }
 
             return view('seo.sitemap', ['urls' => $urls])->render();
@@ -93,6 +101,14 @@ class SeoController extends Controller
                 $out[] = "- [{$p->title}](".route('projects.show', $p->slug)."){$this->techSuffix($tech)}: {$p->summary}";
             }
             $out[] = '';
+
+            if (settings('blog_enabled')) {
+                $out[] = '## Latest Articles';
+                foreach (BlogPost::published()->orderByDesc('published_at')->limit(10)->get() as $b) {
+                    $out[] = "- [{$b->title}](".route('blog.show', $b->slug).')'.($b->excerpt ? ': '.$b->excerpt : '');
+                }
+                $out[] = '';
+            }
 
             $out[] = '## Pages';
             $out[] = '- [About]('.route('about').')';

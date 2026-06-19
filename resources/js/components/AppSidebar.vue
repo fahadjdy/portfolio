@@ -8,6 +8,7 @@ import { Link, usePage } from '@inertiajs/vue3';
 import {
     LayoutGrid, Inbox, FolderKanban, Wrench, Briefcase, GraduationCap,
     Tags, HandHelping, Quote, Share2, FileText, FileDown, Settings, ExternalLink,
+    Newspaper, FolderTree, Hammer,
 } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
@@ -35,12 +36,20 @@ const groups = [
         ],
     },
     {
+        label: 'Blog',
+        items: [
+            { title: 'Posts', href: route('admin.blog-posts.index'), icon: Newspaper },
+            { title: 'Categories', href: route('admin.blog-categories.index'), icon: FolderTree },
+        ],
+    },
+    {
         label: 'Site',
         items: [
             { title: 'Pages', href: route('admin.pages.index'), icon: FileText },
             { title: 'Social Links', href: route('admin.social-links.index'), icon: Share2 },
             { title: 'Resume / CV', href: route('admin.resumes.index'), icon: FileDown },
             { title: 'Settings', href: route('admin.settings.index'), icon: Settings },
+            { title: 'Maintenance', href: route('admin.tools.index'), icon: Hammer },
         ],
     },
 ];

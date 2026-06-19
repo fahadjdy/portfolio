@@ -22,6 +22,7 @@ class ExperienceController extends CrudController
         return array_merge($item->toArray(), [
             'start_date' => $item->start_date?->format('Y-m-d'),
             'end_date' => $item->end_date?->format('Y-m-d'),
+            'period' => $item->start_date?->format('M Y').' – '.($item->is_current ? 'Present' : ($item->end_date?->format('M Y') ?? '—')),
         ]);
     }
 
@@ -30,7 +31,7 @@ class ExperienceController extends CrudController
         return [
             ['key' => 'title', 'label' => 'Title'],
             ['key' => 'company', 'label' => 'Company'],
-            ['key' => 'is_current', 'label' => 'Current', 'type' => 'bool'],
+            ['key' => 'period', 'label' => 'Period'],
             ['key' => 'is_active', 'label' => 'Active', 'type' => 'bool'],
         ];
     }
