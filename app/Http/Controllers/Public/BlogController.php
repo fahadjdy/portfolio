@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Models\BlogCategory;
 use App\Models\BlogPost;
 use App\Services\SchemaBuilder;
 use Illuminate\Http\Request;
@@ -13,14 +14,38 @@ class BlogController extends Controller
     {
         abort_unless((bool) settings('blog_enabled'), 404);
 
-        $posts = BlogPost::published()
+        $category = $request->query('category');
+
+        $base = BlogPost::published()
             ->with('category:id,name,slug', 'techTags:id,name,slug')
-            ->orderByDesc('published_at')
-            ->paginate(9)
+            ->orderByDesc('published_at');
+
+        if ($category) {
+            $base->whereHas('category', fn ($q) => $q->where('slug', $category));
+        }
+
+        // Latest post is featured (no category filter); kept out of the grid everywhere.
+        $featured = $category ? null : (clone $base)->first();
+
+        $posts = (clone $base)
+            ->when($featured, fn ($q) => $q->whereKeyNot($featured->getKey()))
+            ->paginate(6)
             ->withQueryString();
 
+        $showFeatured = $featured && (int) $request->query('page', 1) === 1;
+
+        $categories = BlogCategory::query()
+            ->where('is_active', true)
+            ->whereHas('posts', fn ($q) => $q->published())
+            ->orderBy('position')
+            ->get(['id', 'name', 'slug']);
+
         return view('public.blog.index', [
+            'featured' => $showFeatured ? $featured : null,
             'posts' => $posts,
+            'categories' => $categories,
+            'activeCategory' => $category,
+            'total' => BlogPost::published()->count(),
             'schema' => $schema->graph([
                 $schema->person(),
                 $schema->website(),
