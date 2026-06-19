@@ -83,11 +83,13 @@ function badge(key?: string): number {
             class="fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-slate-200 bg-white transition-transform dark:border-slate-800 dark:bg-slate-900"
         >
             <div class="flex h-16 items-center gap-2 border-b border-slate-200 px-5 dark:border-slate-800">
-                <span class="grid h-9 w-9 place-items-center rounded-lg bg-brand-600 text-sm font-bold text-white">FJ</span>
-                <div class="leading-tight">
-                    <p class="font-display text-sm font-bold text-slate-900 dark:text-white">Fahad Jadiya</p>
-                    <p class="text-xs text-slate-400">Admin panel</p>
-                </div>
+                <Link :href="route('dashboard')" class="flex items-center gap-2">
+                    <span class="grid h-9 w-9 place-items-center rounded-lg bg-brand-600 text-sm font-bold text-white">FJ</span>
+                    <div class="leading-tight">
+                        <p class="font-display text-sm font-bold text-slate-900 dark:text-white">Fahad Jadiya</p>
+                        <p class="text-xs text-slate-400">Admin panel</p>
+                    </div>
+                </Link>
                 <button @click="sidebarOpen = false" class="ml-auto text-slate-400 lg:hidden"><X class="h-5 w-5" /></button>
             </div>
 

@@ -12,8 +12,10 @@ class ProjectImageController extends Controller
 {
     public function __construct(private ImageService $images) {}
 
-    public function store(Request $request, Project $project)
+    public function store(Request $request, $project)
     {
+        $project = Project::findOrFail($project);
+
         $request->validate([
             'images' => ['required', 'array'],
             'images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],

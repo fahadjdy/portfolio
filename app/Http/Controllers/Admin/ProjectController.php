@@ -48,8 +48,9 @@ class ProjectController extends Controller
         return redirect()->route('admin.projects.index')->with('success', 'Project created.');
     }
 
-    public function edit(Project $project)
+    public function edit($id)
     {
+        $project = Project::findOrFail($id);
         $project->load(['panels.features', 'images', 'techTags:id']);
 
         return Inertia::render('admin/projects/Form', [
@@ -73,16 +74,16 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function update(ProjectRequest $request, Project $project)
+    public function update(ProjectRequest $request, $id)
     {
-        $this->save($project, $request);
+        $this->save(Project::findOrFail($id), $request);
 
         return redirect()->route('admin.projects.index')->with('success', 'Project updated.');
     }
 
-    public function destroy(Project $project)
+    public function destroy($id)
     {
-        $project->delete();
+        Project::findOrFail($id)->delete();
 
         return back()->with('success', 'Project deleted.');
     }
