@@ -5,6 +5,7 @@ use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\PageController;
 use App\Http\Controllers\Public\ProjectController;
 use App\Http\Controllers\Public\ResumeController;
+use App\Http\Controllers\Public\SeoController;
 use App\Http\Controllers\Public\ServiceController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,11 @@ Route::get('/services/{service:slug}', [ServiceController::class, 'show'])->name
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:8,1')->name('contact.store');
 Route::get('/resume/download', [ResumeController::class, 'download'])->name('resume.download');
+
+// SEO / AEO / GEO — dynamic, DB-driven
+Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
+Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
+Route::get('/llms.txt', [SeoController::class, 'llms'])->name('llms');
 
 /*
 |--------------------------------------------------------------------------

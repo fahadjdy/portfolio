@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Public;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\TechTag;
+use App\Services\SchemaBuilder;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, SchemaBuilder $schema)
     {
         $tech = $request->query('tech');
 
@@ -22,10 +23,15 @@ class ProjectController extends Controller
             'techTags' => TechTag::query()->whereHas('projects', fn ($q) => $q->published())
                 ->orderBy('name')->get(),
             'activeTech' => $tech,
+            'schema' => $schema->graph([
+                $schema->person(),
+                $schema->website(),
+                $schema->breadcrumb([['Home', route('home')], ['Projects', route('projects.index')]]),
+            ]),
         ]);
     }
 
-    public function show(Project $project)
+    public function show(Project $project, SchemaBuilder $schema)
     {
         abort_unless($project->status->value === 'published', 404);
 
@@ -41,6 +47,15 @@ class ProjectController extends Controller
         return view('public.projects.show', [
             'project' => $project,
             'related' => $related,
+            'schema' => $schema->graph([
+                $schema->person(),
+                $schema->breadcrumb([
+                    ['Home', route('home')],
+                    ['Projects', route('projects.index')],
+                    [$project->title, route('projects.show', $project)],
+                ]),
+                $schema->project($project),
+            ]),
         ]);
     }
 }

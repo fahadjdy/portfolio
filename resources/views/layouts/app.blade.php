@@ -38,6 +38,12 @@
     <link rel="icon" href="{{ $favicon ?: '/favicon.ico' }}" sizes="any">
 
     @vite(['resources/css/public.css', 'resources/js/public.js'])
+
+    {{-- JSON-LD structured data (GEO) — one connected @graph per page --}}
+    @isset($schema)
+        <script type="application/ld+json">{!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+    @endisset
+
     @stack('head')
 </head>
 <body class="min-h-screen bg-white">

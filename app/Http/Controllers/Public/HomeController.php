@@ -11,11 +11,14 @@ use App\Models\Service;
 use App\Models\SkillCategory;
 use App\Models\TechTag;
 use App\Models\Testimonial;
+use App\Services\SchemaBuilder;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(SchemaBuilder $schema)
     {
+        $faqs = Faq::active()->global()->ordered()->get();
+
         return view('public.home', [
             'hero' => PageSection::forPage('home')->where('section_key', 'hero')->first(),
             'aboutIntro' => PageSection::forPage('home')->where('section_key', 'about_intro')->first(),
@@ -27,7 +30,12 @@ class HomeController extends Controller
             'featuredProjects' => Project::published()->featured()->ordered()
                 ->with('techTags')->get(),
             'testimonials' => Testimonial::active()->featured()->ordered()->get(),
-            'faqs' => Faq::active()->global()->ordered()->get(),
+            'faqs' => $faqs,
+            'schema' => $schema->graph([
+                $schema->person(),
+                $schema->website(),
+                $schema->faqPage($faqs),
+            ]),
         ]);
     }
 }
