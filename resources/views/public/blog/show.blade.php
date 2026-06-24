@@ -5,6 +5,10 @@
 @section('og_type', 'article')
 @section('og_image', $post->og_image ? img_url($post->og_image) : ($post->cover_image ? img_url($post->cover_image) : ''))
 
+@push('head')
+    @include('layouts.partials.adsense')
+@endpush
+
 @php
     $siteName = settings('site_name', 'Fahad Jadiya');
     $url = url()->current();

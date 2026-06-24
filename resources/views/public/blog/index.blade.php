@@ -3,6 +3,10 @@
 @section('title', 'Blog — Fahad Jadiya')
 @section('description', 'Articles on Laravel, Vue, SaaS architecture, AI integration and full-stack engineering by Fahad Jadiya.')
 
+@push('head')
+    @include('layouts.partials.adsense')
+@endpush
+
 @section('content')
     {{-- ===================== HEADER ===================== --}}
     <section class="relative overflow-hidden border-b border-slate-100">

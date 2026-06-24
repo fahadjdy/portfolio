@@ -5,6 +5,10 @@
 @section('og_type', 'article')
 @section('og_image', $project->og_image ? img_url($project->og_image) : ($project->cover_image ? img_url($project->cover_image) : ''))
 
+@push('head')
+    @include('layouts.partials.adsense')
+@endpush
+
 @section('content')
     {{-- Breadcrumbs --}}
     <nav aria-label="Breadcrumb" class="border-b border-slate-100 bg-slate-50">

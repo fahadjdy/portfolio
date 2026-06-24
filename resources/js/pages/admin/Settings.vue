@@ -24,6 +24,7 @@ const form = useForm({
     contact_address: props.values.contact_address ?? '',
     whatsapp: props.values.whatsapp ?? '',
     google_analytics_id: props.values.google_analytics_id ?? '',
+    google_adsense_id: props.values.google_adsense_id ?? '',
     blog_enabled: !!props.values.blog_enabled,
 });
 
@@ -67,6 +68,7 @@ const breadcrumbs = [{ title: 'Settings', href: route('admin.settings.index') }]
                     <TextField v-model="form.contact_address" label="Location" :error="form.errors.contact_address" />
                     <TextField v-model="form.whatsapp" label="WhatsApp" :error="form.errors.whatsapp" />
                     <TextField v-model="form.google_analytics_id" label="Google Analytics ID" :error="form.errors.google_analytics_id" />
+                    <TextField v-model="form.google_adsense_id" label="Google AdSense publisher ID" hint="e.g. ca-pub-5917802205295361 — shows ads on blog & project pages" :error="form.errors.google_adsense_id" />
                     <ToggleField v-model="form.blog_enabled" label="Enable blog" hint="Show the blog on the public site" />
                 </div>
             </section>

@@ -30,6 +30,7 @@ class SettingController extends Controller
                 'contact_address' => $this->settings->get('contact_address'),
                 'whatsapp' => $this->settings->get('whatsapp'),
                 'google_analytics_id' => $this->settings->get('google_analytics_id'),
+                'google_adsense_id' => $this->settings->get('google_adsense_id'),
                 'blog_enabled' => (bool) $this->settings->get('blog_enabled'),
             ],
         ]);
@@ -49,6 +50,7 @@ class SettingController extends Controller
             'contact_address' => ['nullable', 'string', 'max:190'],
             'whatsapp' => ['nullable', 'string', 'max:60'],
             'google_analytics_id' => ['nullable', 'string', 'max:60'],
+            'google_adsense_id' => ['nullable', 'string', 'max:60'],
             'blog_enabled' => ['boolean'],
             'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,svg,gif', 'max:4096'],
             'favicon' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,ico,gif', 'max:2048'],
@@ -73,6 +75,7 @@ class SettingController extends Controller
             'contact_address' => $data['contact_address'] ?? '',
             'whatsapp' => $data['whatsapp'] ?? '',
             'google_analytics_id' => $data['google_analytics_id'] ?? '',
+            'google_adsense_id' => $data['google_adsense_id'] ?? '',
             'blog_enabled' => (bool) ($data['blog_enabled'] ?? false),
         ], 'contact', ['blog_enabled' => 'boolean']);
 

@@ -3,6 +3,10 @@
 @section('title', 'Projects & Case Studies — Fahad Jadiya')
 @section('description', 'Explore production web apps, SaaS platforms, CRMs and AI integrations built by Fahad Jadiya — each with a detailed panel-by-panel feature breakdown.')
 
+@push('head')
+    @include('layouts.partials.adsense')
+@endpush
+
 @section('content')
     <x-section eyebrow="Portfolio"
                title="Projects & case studies"
