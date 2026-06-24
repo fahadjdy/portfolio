@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('head')
+    @include('layouts.partials.adsense')
+@endpush
+
 @section('content')
     {{-- ===================== HERO ===================== --}}
     @php
