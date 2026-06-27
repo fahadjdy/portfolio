@@ -123,6 +123,24 @@ class SeoController extends Controller
         return response($content, 200)->header('Content-Type', 'text/plain; charset=utf-8');
     }
 
+    public function adsTxt()
+    {
+        $adsenseId = settings('google_adsense_id');
+
+        // No publisher ID configured → no ads.txt (404 so crawlers simply skip it).
+        if (! $adsenseId) {
+            abort(404);
+        }
+
+        // ads.txt needs the bare publisher ID — drop the "ca-" prefix AdSense shows in its UI.
+        $pubId = preg_replace('/^ca-/', '', $adsenseId);
+
+        // f08c47fec0942fa0 is Google's fixed certification-authority ID for all AdSense accounts.
+        $line = "google.com, {$pubId}, DIRECT, f08c47fec0942fa0";
+
+        return response($line."\n", 200)->header('Content-Type', 'text/plain; charset=utf-8');
+    }
+
     private function techSuffix(string $tech): string
     {
         return $tech ? " ({$tech})" : '';

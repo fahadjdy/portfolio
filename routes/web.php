@@ -36,6 +36,7 @@ Route::get('/resume/download', [ResumeController::class, 'download'])->name('res
 Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
 Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
 Route::get('/llms.txt', [SeoController::class, 'llms'])->name('llms');
+Route::get('/ads.txt', [SeoController::class, 'adsTxt'])->name('ads');
 
 /*
 |--------------------------------------------------------------------------
