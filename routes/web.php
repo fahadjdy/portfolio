@@ -36,6 +36,8 @@ Route::get('/resume/download', [ResumeController::class, 'download'])->name('res
 Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
 Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
 Route::get('/llms.txt', [SeoController::class, 'llms'])->name('llms');
+// Singular alias — some crawlers probe /llm.txt; serve the same llms.txt manifest.
+Route::get('/llm.txt', [SeoController::class, 'llms'])->name('llm');
 Route::get('/ads.txt', [SeoController::class, 'adsTxt'])->name('ads');
 
 /*

@@ -6,13 +6,20 @@ use App\Actions\Leads\CreateLead;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Public\PublicLeadRequest;
 use App\Models\Service;
+use App\Services\SchemaBuilder;
 
 class ContactController extends Controller
 {
-    public function show()
+    public function show(SchemaBuilder $schema)
     {
         return view('public.contact', [
             'services' => Service::active()->ordered()->get(),
+            'schema' => $schema->graph([
+                $schema->person(),
+                $schema->website(),
+                $schema->webPage(route('contact'), 'Contact', type: 'ContactPage'),
+                $schema->breadcrumb([['Home', route('home')], ['Contact', route('contact')]]),
+            ]),
         ]);
     }
 

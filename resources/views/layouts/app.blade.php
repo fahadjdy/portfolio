@@ -16,30 +16,53 @@
         </script>
     @endif
 
-    {{-- SEO meta (settings-driven; per-page schema/OG expanded in Phases 4–5) --}}
+    {{-- SEO meta (settings-driven; per-page overrides via @section). --}}
     @php
         $siteName = settings('site_name', 'Fahad Jadiya');
         $metaTitle = trim($__env->yieldContent('title')) ?: settings('meta_title', $siteName.' — Senior Full-Stack Developer');
         $metaDescription = trim($__env->yieldContent('description')) ?: settings('meta_description', 'Senior Full-Stack Developer specializing in Laravel, Vue and scalable web apps.');
+        $metaKeywords = trim($__env->yieldContent('keywords')) ?: settings('meta_keywords');
+        // Explicit, query-free canonical: pages pass an absolute route(); listings/filters
+        // fall back to the clean current path so duplicate variants consolidate.
         $canonical = trim($__env->yieldContent('canonical')) ?: url()->current();
+        $ogType = trim($__env->yieldContent('og_type')) ?: 'website';
         $ogImage = trim($__env->yieldContent('og_image')) ?: setting_image('og_default_image');
         $favicon = setting_image('favicon');
+        $twitterHandle = ($th = trim((string) settings('twitter_handle'))) !== '' ? '@'.ltrim($th, '@') : null;
+        $themeColor = settings('theme_color', '#4f46e5');
+        $author = settings('organization_name', $siteName);
     @endphp
     <title>{{ $metaTitle }}</title>
     <meta name="description" content="{{ $metaDescription }}">
+    @if($metaKeywords)<meta name="keywords" content="{{ $metaKeywords }}">@endif
+    <meta name="author" content="{{ $author }}">
     <link rel="canonical" href="{{ $canonical }}">
-    <meta name="robots" content="{{ app()->environment('production') ? 'index, follow' : 'noindex, nofollow' }}">
+    <meta name="robots" content="{{ app()->environment('production') ? 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' : 'noindex, nofollow' }}">
+    <meta name="theme-color" content="{{ $themeColor }}">
 
     {{-- Open Graph / Twitter --}}
-    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:type" content="{{ $ogType }}">
     <meta property="og:site_name" content="{{ $siteName }}">
     <meta property="og:title" content="{{ $metaTitle }}">
     <meta property="og:description" content="{{ $metaDescription }}">
     <meta property="og:url" content="{{ $canonical }}">
-    @if($ogImage)<meta property="og:image" content="{{ $ogImage }}">@endif
+    <meta property="og:locale" content="en_US">
+    @if($ogImage)
+        <meta property="og:image" content="{{ $ogImage }}">
+        <meta property="og:image:alt" content="{{ $metaTitle }}">
+    @endif
+    @if($ogType === 'article')
+        @hasSection('article_published_time')<meta property="article:published_time" content="@yield('article_published_time')">@endif
+        @hasSection('article_modified_time')<meta property="article:modified_time" content="@yield('article_modified_time')">@endif
+        <meta property="article:author" content="{{ $author }}">
+    @endif
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $metaTitle }}">
     <meta name="twitter:description" content="{{ $metaDescription }}">
+    @if($twitterHandle)
+        <meta name="twitter:site" content="{{ $twitterHandle }}">
+        <meta name="twitter:creator" content="{{ $twitterHandle }}">
+    @endif
     @if($ogImage)<meta name="twitter:image" content="{{ $ogImage }}">@endif
 
     {{-- Fonts (Bunny = privacy-friendly Google Fonts mirror) --}}

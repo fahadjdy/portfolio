@@ -2,6 +2,7 @@
 
 @section('title', 'Services — Fahad Jadiya')
 @section('description', 'Full-stack development services by Fahad Jadiya: custom web apps, SaaS & management systems, CRMs, AI integrations, e-commerce, invoicing and high-performance websites.')
+@section('canonical', route('services.index'))
 
 @section('content')
     <x-section eyebrow="How I can help"

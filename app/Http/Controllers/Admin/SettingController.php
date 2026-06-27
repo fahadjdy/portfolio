@@ -24,6 +24,10 @@ class SettingController extends Controller
                 'meta_description' => $this->settings->get('meta_description'),
                 'meta_keywords' => $this->settings->get('meta_keywords'),
                 'default_title_suffix' => $this->settings->get('default_title_suffix'),
+                'organization_name' => $this->settings->get('organization_name'),
+                'twitter_handle' => $this->settings->get('twitter_handle'),
+                'theme_color' => $this->settings->get('theme_color'),
+                'sameas_profiles' => $this->settings->get('sameas_profiles'),
                 'og_default_image' => img_url($this->settings->get('og_default_image')),
                 'contact_email' => $this->settings->get('contact_email'),
                 'contact_phone' => $this->settings->get('contact_phone'),
@@ -45,6 +49,10 @@ class SettingController extends Controller
             'meta_description' => ['nullable', 'string', 'max:300'],
             'meta_keywords' => ['nullable', 'string', 'max:255'],
             'default_title_suffix' => ['nullable', 'string', 'max:120'],
+            'organization_name' => ['nullable', 'string', 'max:120'],
+            'twitter_handle' => ['nullable', 'string', 'max:60'],
+            'theme_color' => ['nullable', 'string', 'max:30'],
+            'sameas_profiles' => ['nullable', 'string', 'max:2000'],
             'contact_email' => ['nullable', 'email', 'max:190'],
             'contact_phone' => ['nullable', 'string', 'max:60'],
             'contact_address' => ['nullable', 'string', 'max:190'],
@@ -67,6 +75,10 @@ class SettingController extends Controller
             'meta_description' => $data['meta_description'] ?? '',
             'meta_keywords' => $data['meta_keywords'] ?? '',
             'default_title_suffix' => $data['default_title_suffix'] ?? '',
+            'organization_name' => $data['organization_name'] ?? '',
+            'twitter_handle' => $data['twitter_handle'] ?? '',
+            'theme_color' => $data['theme_color'] ?? '',
+            'sameas_profiles' => $data['sameas_profiles'] ?? '',
         ], 'seo');
 
         $this->settings->setMany([

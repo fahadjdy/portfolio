@@ -36,6 +36,7 @@ class HomeController extends Controller
             'schema' => $schema->graph([
                 $schema->person(),
                 $schema->website(),
+                $schema->webPage(route('home'), settings('site_name', 'Fahad Jadiya')),
                 $schema->faqPage($faqs),
             ]),
         ]);

@@ -22,6 +22,7 @@ class PageController extends Controller
             'schema' => $schema->graph([
                 $schema->person(),
                 $schema->website(),
+                $schema->webPage(route('about'), 'About '.settings('site_name', 'Fahad Jadiya'), type: 'AboutPage'),
                 $schema->breadcrumb([['Home', route('home')], ['About', route('about')]]),
             ]),
         ]);

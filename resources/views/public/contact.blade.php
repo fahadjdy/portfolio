@@ -2,6 +2,7 @@
 
 @section('title', 'Contact — Fahad Jadiya')
 @section('description', "Get in touch with Fahad Jadiya to discuss your web app, SaaS platform, CRM or AI project. Typically replies within 1–2 business days.")
+@section('canonical', route('contact'))
 
 @section('content')
     <x-section eyebrow="Let's talk"

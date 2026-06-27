@@ -26,6 +26,7 @@ class ProjectController extends Controller
             'schema' => $schema->graph([
                 $schema->person(),
                 $schema->website(),
+                $schema->webPage(route('projects.index'), 'Projects & Case Studies', type: 'CollectionPage'),
                 $schema->breadcrumb([['Home', route('home')], ['Projects', route('projects.index')]]),
             ]),
         ]);

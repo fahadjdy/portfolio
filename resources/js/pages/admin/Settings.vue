@@ -18,6 +18,10 @@ const form = useForm({
     meta_description: props.values.meta_description ?? '',
     meta_keywords: props.values.meta_keywords ?? '',
     default_title_suffix: props.values.default_title_suffix ?? '',
+    organization_name: props.values.organization_name ?? '',
+    twitter_handle: props.values.twitter_handle ?? '',
+    theme_color: props.values.theme_color ?? '',
+    sameas_profiles: props.values.sameas_profiles ?? '',
     og_default_image: null as File | null,
     contact_email: props.values.contact_email ?? '',
     contact_phone: props.values.contact_phone ?? '',
@@ -56,6 +60,10 @@ const breadcrumbs = [{ title: 'Settings', href: route('admin.settings.index') }]
                     <TextareaField v-model="form.meta_description" label="Default meta description" :error="form.errors.meta_description" />
                     <TextField v-model="form.meta_keywords" label="Meta keywords" :error="form.errors.meta_keywords" />
                     <TextField v-model="form.default_title_suffix" label="Title suffix" :error="form.errors.default_title_suffix" />
+                    <TextField v-model="form.organization_name" label="Organization / author name" hint="Used for the author and article:author meta tags" :error="form.errors.organization_name" />
+                    <TextField v-model="form.twitter_handle" label="Twitter / X handle" hint="Without the @ — powers twitter:site & twitter:creator" :error="form.errors.twitter_handle" />
+                    <TextField v-model="form.theme_color" label="Theme color" hint="Browser UI color, e.g. #4f46e5" :error="form.errors.theme_color" />
+                    <TextareaField v-model="form.sameas_profiles" label="Off-site profiles (sameAs)" hint="One URL per line — LinkedIn, GitHub, Stack Overflow, Crunchbase, Wikidata. Aligns your entity for search & AI answer engines." :error="form.errors.sameas_profiles" />
                     <ImageField v-model="form.og_default_image" label="Default OG image" :current="values.og_default_image" :error="form.errors.og_default_image" />
                 </div>
             </section>

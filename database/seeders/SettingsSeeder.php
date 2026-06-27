@@ -27,6 +27,11 @@ class SettingsSeeder extends Seeder
             'twitter_handle' => '',
             'organization_name' => 'Fahad Jadiya',
             'default_title_suffix' => 'Fahad Jadiya',
+            'theme_color' => '#4f46e5',
+            // Off-site entity alignment: authoritative external profiles (one per line
+            // or comma-separated) merged into the Person JSON-LD `sameAs`, e.g.
+            // LinkedIn, GitHub, Stack Overflow, Crunchbase, Wikidata.
+            'sameas_profiles' => '',
         ], group: 'seo');
 
         $settings->setMany([

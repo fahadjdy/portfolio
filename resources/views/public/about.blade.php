@@ -2,6 +2,7 @@
 
 @section('title', 'About — Fahad Jadiya, Senior Full-Stack Developer')
 @section('description', 'Learn about Fahad Jadiya — a Senior Full-Stack Developer with 7+ years building Laravel & Vue SaaS platforms, CRMs, management systems and AI-powered products.')
+@section('canonical', route('about'))
 
 @section('content')
     <header class="bg-gradient-to-b from-brand-50 to-white">
@@ -10,7 +11,7 @@
                 <p class="eyebrow">{{ $about->subheading ?? 'Senior Full-Stack Developer' }}</p>
                 <h1 class="mt-3 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">{{ $about->heading ?? 'About Fahad Jadiya' }}</h1>
                 @if($about?->body)
-                    <div class="mt-6 space-y-4 text-lg leading-relaxed text-slate-600">
+                    <div class="speakable mt-6 space-y-4 text-lg leading-relaxed text-slate-600">
                         @foreach(preg_split('/\n\n+/', $about->body) as $para)
                             <p>{{ $para }}</p>
                         @endforeach

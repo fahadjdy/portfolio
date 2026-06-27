@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title', settings('meta_title', settings('site_name', 'Fahad Jadiya').' — Senior Full-Stack Developer'))
+@section('description', settings('meta_description', 'Senior Full-Stack Developer specializing in Laravel, Vue and scalable web apps — SaaS platforms, CRMs, management systems and AI integrations.'))
+@section('canonical', route('home'))
+
 @push('head')
     @include('layouts.partials.adsense')
 @endpush
@@ -38,7 +42,7 @@
                         </p>
                     @endif
 
-                    <p class="mt-5 max-w-xl text-lg text-slate-600">
+                    <p class="speakable mt-5 max-w-xl text-lg text-slate-600">
                         {{ $hero?->body ?? 'I design and ship production-grade systems with Laravel, Vue and MySQL.' }}
                     </p>
 

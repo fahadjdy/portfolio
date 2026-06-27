@@ -16,6 +16,7 @@ class ServiceController extends Controller
             'schema' => $schema->graph([
                 $schema->person(),
                 $schema->website(),
+                $schema->webPage(route('services.index'), 'Services', type: 'CollectionPage'),
                 $schema->breadcrumb([['Home', route('home')], ['Services', route('services.index')]]),
             ]),
         ]);

@@ -2,6 +2,7 @@
 
 @section('title', 'Blog — Fahad Jadiya')
 @section('description', 'Articles on Laravel, Vue, SaaS architecture, AI integration and full-stack engineering by Fahad Jadiya.')
+@section('canonical', route('blog.index'))
 
 @push('head')
     @include('layouts.partials.adsense')

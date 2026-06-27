@@ -35,8 +35,67 @@ class SchemaBuilder
             'url' => $url,
             'email' => settings('contact_email'),
             'image' => setting_image('og_default_image'),
-            'sameAs' => SocialLink::active()->ordered()->pluck('url')->filter()->values()->all(),
+            'sameAs' => $this->sameAs(),
             'knowsAbout' => TechTag::active()->ordered()->pluck('name')->take(20)->values()->all(),
+        ]);
+    }
+
+    /**
+     * Off-site entity alignment: the authoritative external profiles that
+     * disambiguate this person/brand for search and answer engines. Merges the
+     * managed social links with an optional settings-driven list (newline/comma
+     * separated) so profiles like LinkedIn, GitHub, Stack Overflow, Crunchbase
+     * or Wikidata can be added without a code change.
+     *
+     * @return array<int, string>
+     */
+    private function sameAs(): array
+    {
+        $social = SocialLink::active()->ordered()->pluck('url');
+        $extra = collect(preg_split('/[\s,]+/', (string) settings('sameas_profiles'), -1, PREG_SPLIT_NO_EMPTY));
+
+        return $social->merge($extra)
+            ->map(fn ($url) => trim((string) $url))
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
+    }
+
+    /**
+     * A SpeakableSpecification (the "Speaker"/voice schema): the CSS selectors
+     * whose text answer engines and voice assistants may read aloud.
+     *
+     * @param array<int, string> $cssSelector
+     */
+    public function speakable(array $cssSelector = ['h1', '.speakable']): array
+    {
+        return [
+            '@type' => 'SpeakableSpecification',
+            'cssSelector' => array_values($cssSelector),
+        ];
+    }
+
+    /**
+     * A WebPage node tying the current page to the site + person entity and
+     * carrying the speakable spec. $type lets callers use a more specific
+     * subtype (AboutPage, ContactPage, CollectionPage…).
+     *
+     * @param array<int, string> $speakable
+     */
+    public function webPage(string $url, ?string $name = null, array $speakable = ['h1', '.speakable'], string $type = 'WebPage'): array
+    {
+        $home = url('/');
+
+        return array_filter([
+            '@type' => $type,
+            '@id' => $url.'#webpage',
+            'url' => $url,
+            'name' => $name,
+            'isPartOf' => ['@id' => $home.'/#website'],
+            'about' => ['@id' => $home.'/#person'],
+            'inLanguage' => 'en',
+            'speakable' => $this->speakable($speakable),
         ]);
     }
 
@@ -76,7 +135,11 @@ class SchemaBuilder
             'acceptedAnswer' => ['@type' => 'Answer', 'text' => data_get($f, 'answer')],
         ])->filter(fn ($q) => filled($q['name']))->values()->all();
 
-        return $items ? ['@type' => 'FAQPage', 'mainEntity' => $items] : null;
+        return $items ? [
+            '@type' => 'FAQPage',
+            'mainEntity' => $items,
+            'speakable' => $this->speakable(['.faq-q', '.faq-a']),
+        ] : null;
     }
 
     public function project(Project $project): array
@@ -100,6 +163,7 @@ class SchemaBuilder
                 : null,
             'author' => ['@id' => url('/').'/#person'],
             'sameAs' => $project->live_url ?: null,
+            'speakable' => $this->speakable(['h1', '.speakable']),
         ]);
     }
 
@@ -116,6 +180,7 @@ class SchemaBuilder
             'description' => $service->short_description,
             'provider' => ['@id' => url('/').'/#person'],
             'areaServed' => 'Worldwide',
+            'speakable' => $this->speakable(['h1', '.speakable']),
         ];
     }
 
@@ -136,6 +201,7 @@ class SchemaBuilder
             'author' => ['@id' => url('/').'/#person'],
             'publisher' => ['@id' => url('/').'/#person'],
             'mainEntityOfPage' => $url,
+            'speakable' => $this->speakable(['h1', '.prose-content']),
         ]);
     }
 }

@@ -4,6 +4,10 @@
 @section('description', $post->seo_description ?: ($post->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($post->body), 155)))
 @section('og_type', 'article')
 @section('og_image', $post->og_image ? img_url($post->og_image) : ($post->cover_image ? img_url($post->cover_image) : ''))
+@section('canonical', route('blog.show', $post->slug))
+@section('keywords', $post->relationLoaded('techTags') ? $post->techTags->pluck('name')->implode(', ') : '')
+@section('article_published_time', optional($post->published_at)->toAtomString())
+@section('article_modified_time', optional($post->updated_at)->toAtomString())
 
 @push('head')
     @include('layouts.partials.adsense')

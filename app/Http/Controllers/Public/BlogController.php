@@ -49,6 +49,7 @@ class BlogController extends Controller
             'schema' => $schema->graph([
                 $schema->person(),
                 $schema->website(),
+                $schema->webPage(route('blog.index'), 'Blog', type: 'CollectionPage'),
                 $schema->breadcrumb([['Home', route('home')], ['Blog', route('blog.index')]]),
             ]),
         ]);

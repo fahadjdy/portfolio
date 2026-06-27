@@ -2,6 +2,7 @@
 
 @section('title', $service->title.' — Services | Fahad Jadiya')
 @section('description', \Illuminate\Support\Str::limit($service->short_description, 155))
+@section('canonical', route('services.show', $service->slug))
 
 @section('content')
     <nav aria-label="Breadcrumb" class="border-b border-slate-100 bg-slate-50">

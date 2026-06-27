@@ -4,6 +4,9 @@
 @section('description', $project->seo_description ?: \Illuminate\Support\Str::limit($project->summary, 155))
 @section('og_type', 'article')
 @section('og_image', $project->og_image ? img_url($project->og_image) : ($project->cover_image ? img_url($project->cover_image) : ''))
+@section('canonical', route('projects.show', $project->slug))
+@section('keywords', $project->relationLoaded('techTags') ? $project->techTags->pluck('name')->implode(', ') : '')
+@section('article_modified_time', optional($project->updated_at)->toAtomString())
 
 @push('head')
     @include('layouts.partials.adsense')

@@ -2,6 +2,7 @@
 
 @section('title', 'Projects & Case Studies — Fahad Jadiya')
 @section('description', 'Explore production web apps, SaaS platforms, CRMs and AI integrations built by Fahad Jadiya — each with a detailed panel-by-panel feature breakdown.')
+@section('canonical', route('projects.index'))
 
 @push('head')
     @include('layouts.partials.adsense')
