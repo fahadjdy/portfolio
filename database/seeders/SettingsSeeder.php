@@ -28,6 +28,9 @@ class SettingsSeeder extends Seeder
             'organization_name' => 'Fahad Jadiya',
             'default_title_suffix' => 'Fahad Jadiya',
             'theme_color' => '#4f46e5',
+            // Google Search Console site-verification token (the `content` value of
+            // the <meta name="google-site-verification"> tag).
+            'google_site_verification' => '3dbHcMpmXz4OgN2SwEzWharCkHXxsJJGW69fAoNMRss',
             // Off-site entity alignment: authoritative external profiles (one per line
             // or comma-separated) merged into the Person JSON-LD `sameAs`, e.g.
             // LinkedIn, GitHub, Stack Overflow, Crunchbase, Wikidata.

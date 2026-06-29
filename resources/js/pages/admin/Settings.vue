@@ -21,6 +21,7 @@ const form = useForm({
     organization_name: props.values.organization_name ?? '',
     twitter_handle: props.values.twitter_handle ?? '',
     theme_color: props.values.theme_color ?? '',
+    google_site_verification: props.values.google_site_verification ?? '',
     sameas_profiles: props.values.sameas_profiles ?? '',
     og_default_image: null as File | null,
     contact_email: props.values.contact_email ?? '',
@@ -63,6 +64,7 @@ const breadcrumbs = [{ title: 'Settings', href: route('admin.settings.index') }]
                     <TextField v-model="form.organization_name" label="Organization / author name" hint="Used for the author and article:author meta tags" :error="form.errors.organization_name" />
                     <TextField v-model="form.twitter_handle" label="Twitter / X handle" hint="Without the @ — powers twitter:site & twitter:creator" :error="form.errors.twitter_handle" />
                     <TextField v-model="form.theme_color" label="Theme color" hint="Browser UI color, e.g. #4f46e5" :error="form.errors.theme_color" />
+                    <TextField v-model="form.google_site_verification" label="Google site verification" hint="The content value of the google-site-verification meta tag from Search Console" :error="form.errors.google_site_verification" />
                     <TextareaField v-model="form.sameas_profiles" label="Off-site profiles (sameAs)" hint="One URL per line — LinkedIn, GitHub, Stack Overflow, Crunchbase, Wikidata. Aligns your entity for search & AI answer engines." :error="form.errors.sameas_profiles" />
                     <ImageField v-model="form.og_default_image" label="Default OG image" :current="values.og_default_image" :error="form.errors.og_default_image" />
                 </div>

@@ -27,6 +27,7 @@ class SettingController extends Controller
                 'organization_name' => $this->settings->get('organization_name'),
                 'twitter_handle' => $this->settings->get('twitter_handle'),
                 'theme_color' => $this->settings->get('theme_color'),
+                'google_site_verification' => $this->settings->get('google_site_verification'),
                 'sameas_profiles' => $this->settings->get('sameas_profiles'),
                 'og_default_image' => img_url($this->settings->get('og_default_image')),
                 'contact_email' => $this->settings->get('contact_email'),
@@ -52,6 +53,7 @@ class SettingController extends Controller
             'organization_name' => ['nullable', 'string', 'max:120'],
             'twitter_handle' => ['nullable', 'string', 'max:60'],
             'theme_color' => ['nullable', 'string', 'max:30'],
+            'google_site_verification' => ['nullable', 'string', 'max:191'],
             'sameas_profiles' => ['nullable', 'string', 'max:2000'],
             'contact_email' => ['nullable', 'email', 'max:190'],
             'contact_phone' => ['nullable', 'string', 'max:60'],
@@ -78,6 +80,7 @@ class SettingController extends Controller
             'organization_name' => $data['organization_name'] ?? '',
             'twitter_handle' => $data['twitter_handle'] ?? '',
             'theme_color' => $data['theme_color'] ?? '',
+            'google_site_verification' => $data['google_site_verification'] ?? '',
             'sameas_profiles' => $data['sameas_profiles'] ?? '',
         ], 'seo');
 

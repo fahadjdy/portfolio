@@ -39,6 +39,9 @@
     <link rel="canonical" href="{{ $canonical }}">
     <meta name="robots" content="{{ app()->environment('production') ? 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' : 'noindex, nofollow' }}">
     <meta name="theme-color" content="{{ $themeColor }}">
+    @if($googleSiteVerification = settings('google_site_verification'))
+        <meta name="google-site-verification" content="{{ $googleSiteVerification }}">
+    @endif
 
     {{-- Open Graph / Twitter --}}
     <meta property="og:type" content="{{ $ogType }}">
